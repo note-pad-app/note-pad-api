@@ -1,19 +1,33 @@
 import Mail from '@ioc:Adonis/Addons/Mail'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import User from 'App/Models/User';
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class UsersController {
-  public async register({request, response}: HttpContextContract){
+  public async register({request, response, auth}: HttpContextContract){
     try{
-      await Mail.send((message) => {
-        message
-          .from('info@example.com')
-          .to(request.input('email'))
-          .subject('Welcome Onboard!')
-          .htmlView('emails/varification', { name: request.input('username') })
-      })
-        response.send('success')
+
+      const data = request.only(['username', 'email', 'password']);
+      const user = await User.create(data)
+      await auth.login(user)
+
+      response.send(user)
+      // const token = user.token
+
+      // response.send(token.token)
+
+      // const url = `${Env.get('BASE_URL')}users/${user.id}/verify/${token.teken}`
+
+      // await Mail.send((message) => {
+      //   message
+      //     .from('note-pad-application.vercel.app')
+      //     .to(request.input('email'))
+      //     .subject('Email Varification')
+      //     .htmlView('emails/varification', { name: request.input('username') })
+      // })
+      //   response.send('success')
     }catch(e){
-      response.send('failed')
+      response.send(e)
     }
   }
 
