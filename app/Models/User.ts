@@ -1,60 +1,53 @@
 import { DateTime } from 'luxon'
-import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, hasMany, HasMany, hasOne, HasOne } from '@ioc:Adonis/Lucid/Orm'
-import Note from './Note'
-import Todo from './Todo'
-import Mail from '@ioc:Adonis/Addons/Mail'
-import Token from './Token'
+import { withAuthFinder } from '@adonisjs/auth'
+import hash from '@adonisjs/core/services/hash'
+import { compose } from '@adonisjs/core/helpers'
+import { BaseModel, column} from '@adonisjs/lucid/orm'
+import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 
-export default class User extends BaseModel {
+const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
+  uids: ['username', 'email'],
+  passwordColumnName: 'password',
+})
+
+export default class User extends compose(BaseModel, AuthFinder) {
   @column({ isPrimary: true })
-  public id: number
+  declare id: number
 
   @column()
-  public firstname: string
+  declare firstname: string
 
   @column()
-  public lastname: string
+  declare lastname: string
 
   @column()
-  public country: string
+  declare country: string
 
   @column()
-  public job: string
+  declare job: string
 
   @column()
-  public username: string
+  declare username: string
 
   @column()
-  public email: string
+  declare email: string
 
   @column({ serializeAs: null })
-  public password: string
+  declare password: string
 
   @column()
-  public rememberMeToken: string | null
+  declare rememberMeToken: string | null
 
   @column.dateTime({ autoCreate: true })
-  public createdAt: DateTime
+  declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  public updatedAt: DateTime
+  declare updatedAt: DateTime | null
 
-  //relationships
+  //---------------------------------Relationships---------------------------------------------//
 
-  @hasMany(()=> Note)
-  public notes: HasMany<typeof Note>
+  static accessTokens = DbAccessTokensProvider.forModel(User)
 
-  @hasMany(()=> Todo)
-  public todos: HasMany<typeof Todo>
+  //---------------------------------Hooks---------------------------------------------//
 
-  @hasOne(()=> Token)
-  public token: HasOne<typeof Token>
-
-  @beforeSave()
-  public static async hashPassword (user: User) {
-    if (user.$dirty.password) {
-      user.password = await Hash.make(user.password)
-    }
-  }
 }

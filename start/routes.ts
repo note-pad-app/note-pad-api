@@ -1,7 +1,3 @@
-import Route from '@ioc:Adonis/Core/Route'
+import { fsImportAll } from '@adonisjs/core/helpers'
 
-Route.post('register', 'UsersController.register')
-Route.resource('user', 'UsersController')
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+await fsImportAll(new URL('../app/routes', import.meta.url))
