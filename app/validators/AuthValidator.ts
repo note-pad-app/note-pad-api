@@ -1,7 +1,7 @@
 import vine from '@vinejs/vine'
 import { uniqueRule } from './rules/unique.js'
 import { existRule } from './rules/exists.js'
-import { column } from '@adonisjs/lucid/orm'
+import { Secret } from '@adonisjs/core/helpers'
 
 export const LoginValidator = vine.compile(
   vine.object({
@@ -45,27 +45,11 @@ export const ForgotPasswordValidator = vine.compile (
   })
 )
 
-// export const ResetPasswordValidator = vine.compile(
-  // constructor(protected ctx: HttpContextContract) {}
-  // public refs = schema.refs({
-  //   admin_id: this.ctx.request.body().admin_id,
-  // });
-
-  // vine.object({
-  //   user_id: vine.number().use(existRule({table: 'users', column: 'id'})),
-  //   token: vine.string()
-  //     .use(existRule({table: 'auth_api_token', column: 'hash'}))
-  //     rules.exists({
-  //       column: "token",
-  //       table: "admin_tokens",
-  //       where: {
-  //         is_revoked: false,
-  //         admin_id: this.refs.admin_id,
-  //         type: "password",
-  //       },
-  //     }),
-  //   ]),
-  //   password: vine.string([rules.confirmed()]),
-  // });
-// )
+export const ResetPasswordValidator = vine.compile(
+  vine.object({
+    user_id: vine.number().use(existRule({table: 'users', column: 'id'})),
+    token: vine.string(),
+    password: vine.string(),
+  })
+)
 
