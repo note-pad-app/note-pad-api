@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import User from "#models/user";
 import mail from '@adonisjs/mail/services/main';
+import env from '#start/env'
 
 import {
   ForgotPasswordValidator,
@@ -54,10 +55,10 @@ export default class AuthController {
 
       await mail.send((message) => {
         message
-          .to('edrisssalokozay@gmail.com')
-          .from('edrissaria8@gmail.com')
+          .to(user.email)
+          .from(env.get('SMTP_USERNAME'))
           .subject('Password Reset')
-          .html(`<div style="text-align: center"><h2>Password Reset</h2><p>Click the link below to reset your password:</p><a href="http://localhost:3333?token=${token.hash}" style="margin-top: 1rem;background: blue; padding: 10px; border-radius: 2px; color: white">Reset Password</a></div>`)
+          .html(`<div style="text-align: center"><h2>Password Reset</h2><p>Click the link below to reset your password:</p><a href="http://localhost:3333?user_id=${user.id}&token=${token.hash}" style="margin-top: 1rem;background: blue; padding: 10px; border-radius: 2px; color: white">Reset Password</a></div>`)
       })
     }
 
@@ -66,7 +67,7 @@ export default class AuthController {
   }
 
   async resetPassword({ request }: HttpContext) {
-    let {user_id, password, token} = await request.validateUsing(ResetPasswordValidator)
+    let {user_id, password} = await request.validateUsing(ResetPasswordValidator)
     
     let user = await User.findOrFail(user_id);
     user.password = password;

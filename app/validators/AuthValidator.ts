@@ -1,7 +1,6 @@
 import vine from '@vinejs/vine'
 import { uniqueRule } from './rules/unique.js'
 import { existRule } from './rules/exists.js'
-import { Secret } from '@adonisjs/core/helpers'
 
 export const LoginValidator = vine.compile(
   vine.object({
@@ -48,7 +47,7 @@ export const ForgotPasswordValidator = vine.compile (
 export const ResetPasswordValidator = vine.compile(
   vine.object({
     user_id: vine.number().use(existRule({table: 'users', column: 'id'})),
-    token: vine.string(),
+    token: vine.string().use(existRule({table: 'auth_access_tokens', column: 'hash'})),
     password: vine.string(),
   })
 )
