@@ -8,6 +8,8 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('user_id').references('id')
       .inTable('users').onDelete('cascade').unsigned()
+      table.integer('category_id').references('id')
+      .inTable('categories').onDelete('set null').unsigned()
       table.text('note').notNullable()
       table.boolean('is_favorite').defaultTo(false)
       table.boolean('is_deleted').defaultTo(false)

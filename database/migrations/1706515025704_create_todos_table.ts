@@ -8,6 +8,8 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('user_id').references('id')
       .inTable('users').onDelete('cascade').unsigned()
+      table.integer('category_id').references('id')
+      .inTable('categories').onDelete('set null').unsigned()
       table.string('todo').notNullable()
       table.dateTime('completed_at').nullable()
       table.boolean('is_important').defaultTo(false)

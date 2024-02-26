@@ -1,4 +1,10 @@
-// import type { HttpContext } from '@adonisjs/core/http'
+import Todo from "#models/todo";
+import CrudsController from "./cruds_controller.js";
 
-export default class TodosController {
+export default class TodosController extends CrudsController{
+    constructor(){
+        super();
+        this.model = Todo
+
+    }
 }

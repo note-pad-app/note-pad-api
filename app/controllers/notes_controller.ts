@@ -1,4 +1,11 @@
-// import type { HttpContext } from '@adonisjs/core/http'
+import Note from "#models/note";
+import CrudsController from "./cruds_controller.js";
 
-export default class NotesController {
+export default class NotesController extends CrudsController {
+    protected validator = "llll"
+
+    constructor() {
+        super();
+        this.model = Note;
+    }
 }

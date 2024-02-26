@@ -5,6 +5,12 @@ export default class Category extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
+  @column()
+  declare name: string;
+
+  @column()
+  declare type: 'note' | 'todo';
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

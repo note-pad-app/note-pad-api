@@ -9,7 +9,7 @@ import {
   ResetPasswordValidator,
   LoginValidator,
   UserValidator
-} from "#validators/AuthValidator";
+} from "#validators/auth";
 import hash from '@adonisjs/core/services/hash'
 
 export default class AuthController {

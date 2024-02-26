@@ -6,9 +6,8 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.enum('classify_type', ['note', 'todo']).notNullable()
+      table.enum('type', ['note', 'todo']).notNullable()
       table.string('name').notNullable()
-      table.string('color').notNullable()
       table.timestamps(true, true)
     })
   }
