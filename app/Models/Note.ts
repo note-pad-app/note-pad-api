@@ -1,7 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { column } from '@adonisjs/lucid/orm'
+import MyModel from './model.js'
+import { noteValidator } from '#validators/note';
 
-export default class Note extends BaseModel {
+export default class Note extends MyModel {
+  static get validator(){
+    return noteValidator;
+  }
+
   @column({ isPrimary: true })
   declare id: number
 

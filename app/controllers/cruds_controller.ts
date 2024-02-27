@@ -31,6 +31,7 @@ export default class CrudsController {
 
     const payload = await request.validateUsing(this.model.validator);
 
+    
     data.merge(payload);
     await data.save();
 
