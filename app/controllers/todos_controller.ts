@@ -5,6 +5,6 @@ export default class TodosController extends CrudsController{
     constructor(){
         super();
         this.model = Todo
-
+        this.policy = "TodoPolicy"
     }
 }

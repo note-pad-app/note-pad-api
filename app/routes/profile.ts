@@ -3,10 +3,10 @@ import { middleware } from '#start/kernel';
 
 router.group(() => {
   router.group(() => {
-    router.get("show", "#controllers/profile_controller.show")
-    router.put("edit", "#controllers/profile_controller.edit")
-    router.delete("remove", "#controllers/profile_controller.remove")
+    router.get("profile/show", "#controllers/profile_controller.show")
+    router.put("profile/edit", "#controllers/profile_controller.edit")
+    router.delete("profile/remove", "#controllers/profile_controller.remove")
   })
   .use(middleware.auth())
 })
-  .prefix("api/profile")
+  .prefix("api")

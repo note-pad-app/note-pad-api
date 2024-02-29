@@ -5,5 +5,6 @@ export default class NotesController extends CrudsController {
     constructor() {
         super();
         this.model = Note;
+        this.policy = "NotePolicy"
     }
 }

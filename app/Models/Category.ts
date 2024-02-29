@@ -8,6 +8,10 @@ export default class Category extends MyModel {
     return categoryValidator;
   }
 
+  static get softDelete(){
+    return false;
+  }
+
   @column({ isPrimary: true })
   declare id: number
 

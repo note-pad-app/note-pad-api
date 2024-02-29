@@ -31,11 +31,4 @@ export default class CategoryPolicy extends BasePolicy {
   show(user: User, category: Category): AuthorizerResponse {
     return user.id === category.user_id
   }
-
-  /**
-   * Only the category creator can see the category list
-   */
-  index(user: User, category: Category): AuthorizerResponse {
-    return user.id === category.user_id
-  }
 }

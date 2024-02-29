@@ -6,6 +6,8 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
+      table.integer('user_id').references('id')
+      .inTable('users').onDelete('cascade').unsigned()
       table.enum('type', ['note', 'todo']).notNullable()
       table.string('name').notNullable()
       table.timestamps(true, true)
