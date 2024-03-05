@@ -18,6 +18,10 @@ export default class User extends compose(MyModel, AuthFinder) {
     return profileValidator
   }
 
+  static get softDelete(){
+    return false;
+  }
+
   @column({ isPrimary: true })
   declare id: number
 
