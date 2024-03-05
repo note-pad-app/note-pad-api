@@ -2,10 +2,10 @@ import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel';
 
 router.group(() => {
-    router.resource('todo', '#controllers/todo_controller')
+    router.resource('todos', '#controllers/todo_controller')
         .apiOnly()
-    router.patch("todo/:id/soft_delete", "#controllers/todo_controller.softDelete");
-    router.patch("todo/:id/recover", "#controllers/todo_controller.recovery");
+    router.patch("todos/:id/soft_delete", "#controllers/todos_controller.softDelete");
+    router.patch("todos/:id/recover", "#controllers/todos_controller.recovery");
 })
     .use(middleware.auth())
     .prefix("api")

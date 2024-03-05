@@ -32,10 +32,4 @@ export default class TodoPolicy extends BasePolicy {
     return user.id === todo.user_id
   }
 
-  /**
-   * Only the todo creator can see the todo list
-   */
-  index(user: User, todo: Todo): AuthorizerResponse {
-    return user.id === todo.user_id
-  }
 }

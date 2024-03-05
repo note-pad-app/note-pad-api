@@ -18,7 +18,7 @@ export default class CrudsController {
     const data = await this.model.firstOrFailWithPreloads(params.id);
 
     if (await bouncer.with(this.policy).denies('show', data)) {
-      return response.forbidden('Cannot see this post')
+      return response.forbidden('Cannot see this data')
     }
 
     return response.status(200).json(data);
@@ -38,7 +38,7 @@ export default class CrudsController {
     const payload = await request.validateUsing(this.model.validator);
 
     if (await bouncer.with(this.policy).denies('edit', data)) {
-      return response.forbidden('Cannot edit this post')
+      return response.forbidden('Cannot edit this data')
     }
 
     data.merge(payload);
@@ -53,7 +53,7 @@ export default class CrudsController {
     const data = await this.model.findOrFail(params.id);
 
     if(await bouncer.with(this.policy).denies('delete', data)){
-      return response.forbidden('Cannot delete this post')
+      return response.forbidden('Cannot delete this data')
     }
 
     data.delete();
@@ -64,7 +64,7 @@ export default class CrudsController {
     const data = await this.model.findOrFail(params.id);
 
     if (await bouncer.with(this.policy).denies('edit', data)) {
-      return response.forbidden('Cannot delete this post')
+      return response.forbidden('Cannot delete this data')
     }
 
     data.is_deleted = true;
@@ -78,7 +78,7 @@ export default class CrudsController {
     const data = await this.model.findOrFail(params.id);
 
     if (await bouncer.with(this.policy).denies('edit', data)) {
-      return response.forbidden('Cannot edit this post')
+      return response.forbidden('Cannot edit this data')
     }
 
     data.is_deleted = false;

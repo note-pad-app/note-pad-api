@@ -32,10 +32,4 @@ export default class NotePolicy extends BasePolicy {
     return user.id === note.user_id
   }
 
-  /**
-   * Only the note creator can see the note list
-   */
-  index(user: User, note: Note): AuthorizerResponse {
-    return user.id === note.user_id
-  }
 }
