@@ -20,7 +20,9 @@ export default class Note extends MyModel {
   @column()
   declare note: string
 
-  @column()
+  @column({
+    consume: (v) => Boolean(v),
+  })
   declare is_favorite: boolean
 
   @column()

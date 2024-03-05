@@ -23,16 +23,22 @@ export default class Todo extends MyModel {
   @column.dateTime()
   declare completed_at: DateTime
 
-  @column()
+  @column({
+    consume: (v) => Boolean(v),
+  })
   declare is_important: boolean
 
   @column.dateTime()
   declare reminder: DateTime
 
-  @column()
+  @column({
+    consume: (v) => Boolean(v),
+  })
   declare is_completed: boolean
 
-  @column()
+  @column({
+    consume: (v) => Boolean(v),
+  })
   declare is_deleted: boolean
 
   @column.dateTime({ autoCreate: true })
@@ -40,4 +46,5 @@ export default class Todo extends MyModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
 }

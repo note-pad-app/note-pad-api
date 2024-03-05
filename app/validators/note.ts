@@ -6,3 +6,9 @@ export const noteValidator = vine.compile(
         note: vine.string(),
     })
 )
+
+export const favoriteValidator = vine.compile(
+    vine.object({
+        favorite: vine.boolean(),
+    })
+)

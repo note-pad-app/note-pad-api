@@ -9,3 +9,9 @@ export const todoValidator = vine.compile(
         reminder: vine.date().optional()
     })
 )
+
+export const completedValidator = vine.compile(
+    vine.object({
+        is_completed: vine.boolean()
+    })
+)
