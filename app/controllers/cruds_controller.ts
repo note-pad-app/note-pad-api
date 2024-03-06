@@ -5,7 +5,7 @@ export default class CrudsController {
   public policy: any;
 
   //display all data
-  public async index({ response, request, auth}: HttpContext) {
+  public async index({ response, request, auth }: HttpContext) {
     let params = request.qs();
 
     const result = await this.model.listOptions(params, auth.user!.id)
@@ -52,7 +52,7 @@ export default class CrudsController {
   public async destroy({ response, params, bouncer }: HttpContext) {
     const data = await this.model.findOrFail(params.id);
 
-    if(await bouncer.with(this.policy).denies('delete', data)){
+    if (await bouncer.with(this.policy).denies('delete', data)) {
       return response.forbidden('Cannot delete this data')
     }
 
@@ -86,5 +86,13 @@ export default class CrudsController {
     await data.save();
 
     return response.status(204);
+  }
+
+  public async search({ request, response }: HttpContext) {
+    let { query } = request.qs();
+
+    let result = await this.model.query().whereLike(query)
+
+    return response.status(200).json(result)
   }
 }
