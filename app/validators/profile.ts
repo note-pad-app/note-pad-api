@@ -14,3 +14,12 @@ export const profileValidator = vine.compile(
         photo: vine.string().optional()
     })
 )
+
+export const uploadAvatarValidator = vine.compile(
+    vine.object({
+      avatar: vine.file({
+        size: '2mb',
+        extnames: ['jpg', 'png', 'pdf']
+      })
+    })
+  )
