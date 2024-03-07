@@ -26,9 +26,14 @@ async function unique(
     if (typeof value !== 'string') {
         return
     }
+    let query = db.from(options.table)
 
-    const row = await db
-        .from(options.table)
+    if(field.data.params.id){
+        query = query
+        .whereNot('id', field.data.params.id)
+    }
+
+    const row = await query   
         .select(options.column)
         .where(options.column, value)
         .first()
