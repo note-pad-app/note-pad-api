@@ -7,7 +7,6 @@ router.group(() => {
     router.patch("notes/:id/soft_delete", "#controllers/notes_controller.softDelete");
     router.patch("notes/:id/recover", "#controllers/notes_controller.recovery");
     router.patch("notes/:id/favorite", "#controllers/notes_controller.markAsFavorite");
-    router.get("notes/search", "#controllers/notes_controller.search")
 })
     .use(middleware.auth())
     .prefix("api")
