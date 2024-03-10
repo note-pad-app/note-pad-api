@@ -1,11 +1,16 @@
 import { DateTime } from 'luxon'
 import { column } from '@adonisjs/lucid/orm'
 import MyModel from './model.js';
-import { categoryValidator } from '#validators/category';
+import { storeValidator, updateValidator } from '#validators/category';
 
 export default class Category extends MyModel {
-  static get validator(){
-    return categoryValidator;
+
+  static get sroteValidator(){
+    return storeValidator;
+  }
+
+  static get updateValidator(){
+    return updateValidator;
   }
 
   static get softDelete(){

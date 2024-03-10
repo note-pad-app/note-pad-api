@@ -1,11 +1,19 @@
 import vine from '@vinejs/vine'
 import { uniqueRule } from './rules/unique.js'
 
-export const categoryValidator = vine.compile(
+let name = vine.string().use(
+    uniqueRule({ table: 'categories', column: 'name'})
+)
+
+export const storeValidator = vine.compile(
     vine.object({
-        name: vine.string().use(
-            uniqueRule({ table: 'categories', column: 'name' })
-        ),
+        name,
         type: vine.enum(['note', 'todo']),
+    })
+)
+
+export const updateValidator = vine.compile(
+    vine.object({
+        name: name.optional(),
     })
 )

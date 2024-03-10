@@ -14,8 +14,8 @@ const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
 
 export default class User extends compose(MyModel, AuthFinder) {
 
-  static get validator(){
-    return profileValidator
+  static get updateValidator(){
+    return profileValidator;
   }
 
   static get softDelete(){

@@ -26,7 +26,7 @@ export default class CrudsController {
 
   //store data
   public async store({ request, response, auth }: HttpContext) {
-    const payloud = await request.validateUsing(this.model.validator);
+    const payloud = await request.validateUsing(this.model.storeValidator);
     const result = await this.model.create({ ...payloud, user_id: auth.user!.id });
 
     return response.status(201).json(result);
@@ -35,7 +35,7 @@ export default class CrudsController {
   //update single data
   public async update({ request, response, params, bouncer }: HttpContext) {
     const data = await this.model.findOrFail(params.id);
-    const payload = await request.validateUsing(this.model.validator);
+    const payload = await request.validateUsing(this.model.updateValidator);
 
     if (await bouncer.with(this.policy).denies('edit', data)) {
       return response.forbidden('Cannot edit this data')

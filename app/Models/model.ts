@@ -28,12 +28,12 @@ export default class MyModel extends BaseModel {
         return query;
     }
 
-    
-  static firstOrFailWithPreloads(id: any) {
-    let query = super.query().where("id", id);
-    query = this.apply_preloads(query);
-    return query.firstOrFail();
-  }
+
+    static firstOrFailWithPreloads(id: any) {
+        let query = super.query().where("id", id);
+        query = this.apply_preloads(query);
+        return query.firstOrFail();
+    }
 
     static async listOptions(params: any, user_id: number) {
         let query = super.query();
@@ -47,7 +47,7 @@ export default class MyModel extends BaseModel {
 
         const page = parseInt(params.page || "1");
         const perPage = parseInt(params.perPage || "10");
-        query = query.where({user_id})
+        query = query.where({ user_id })
         query = this.apply_filters(query, filtersArray);
 
         for (let preload of this.preloads) {
@@ -57,7 +57,7 @@ export default class MyModel extends BaseModel {
                 query = query.preload(preload as any);
             }
         }
-        
+
         const result = await query.paginate(page, perPage);
 
         const { data, meta } = JSON.parse(JSON.stringify(result));

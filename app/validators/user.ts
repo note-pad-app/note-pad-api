@@ -8,9 +8,9 @@ export const profileValidator = vine.compile(
         photo: vine.string().trim().optional(),
         username: vine.string().trim().use(
             uniqueRule({ table: 'users', column: 'username' })
-        ),
+        ).optional(),
         email: vine.string().trim().email().use(
             uniqueRule({ table: 'users', column: 'email' })
-        ),
+        ).optional(),
     })
 )

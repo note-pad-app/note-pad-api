@@ -1,11 +1,16 @@
 import { DateTime } from 'luxon'
 import { column } from '@adonisjs/lucid/orm'
 import MyModel from './model.js'
-import { todoValidator } from '#validators/todo';
+import { storeValidator, updateValidator } from '#validators/todo';
 
 export default class Todo extends MyModel {
-  static get validator(){
-    return todoValidator;
+
+  static get sroteValidator(){
+    return storeValidator;
+  }
+
+  static get updateValidator(){
+    return updateValidator;
   }
 
   @column({ isPrimary: true })

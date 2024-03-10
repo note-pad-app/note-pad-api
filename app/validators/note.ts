@@ -1,9 +1,16 @@
 import vine from '@vinejs/vine'
 
-export const noteValidator = vine.compile(
+export const storeValidator = vine.compile(
     vine.object({
-        category_id: vine.number(),
+        category_id: vine.number().optional(),
         note: vine.string(),
+    })
+)
+
+export const updateValidator = vine.compile(
+    vine.object({
+        category_id: vine.number().optional(),
+        note: vine.string().optional(),
     })
 )
 

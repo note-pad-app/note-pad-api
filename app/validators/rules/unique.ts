@@ -26,6 +26,7 @@ async function unique(
     if (typeof value !== 'string') {
         return
     }
+
     let query = db.from(options.table)
 
     if(field.data.params.id){
