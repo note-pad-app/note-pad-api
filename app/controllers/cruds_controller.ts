@@ -87,12 +87,4 @@ export default class CrudsController {
 
     return response.status(204);
   }
-
-  public async search({ request, response }: HttpContext) {
-    let { query } = request.qs();
-
-    let result = await this.model.query().whereLike(query)
-
-    return response.status(200).json(result)
-  }
 }
