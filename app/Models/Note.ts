@@ -1,15 +1,18 @@
 import { DateTime } from 'luxon'
-import { column } from '@adonisjs/lucid/orm'
+import { belongsTo, column } from '@adonisjs/lucid/orm'
 import MyModel from './model.js'
 import { storeValidator, updateValidator } from '#validators/note';
+import User from './user.js';
+import type { BelongsTo } from '@adonisjs/lucid/types/relations';
+import Category from './category.js';
 
 export default class Note extends MyModel {
 
-  static get sroteValidator(){
+  static get storeValidator() {
     return storeValidator;
   }
 
-  static get updateValidator(){
+  static get updateValidator() {
     return updateValidator;
   }
 
@@ -17,10 +20,10 @@ export default class Note extends MyModel {
   declare id: number
 
   @column()
-  declare user_id: number
+  declare userId: number
 
   @column()
-  declare category_id: number
+  declare categoryId: number
 
   @column()
   declare note: string
@@ -30,7 +33,9 @@ export default class Note extends MyModel {
   })
   declare is_favorite: boolean
 
-  @column()
+  @column({
+    consume: (v) => Boolean(v),
+  })
   declare is_deleted: number
 
   @column.dateTime({ autoCreate: true })
@@ -38,4 +43,13 @@ export default class Note extends MyModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  // relationships
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
+
+  @belongsTo(() => Category)
+  declare category: BelongsTo<typeof Category>
+
 }

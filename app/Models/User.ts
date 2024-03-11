@@ -2,10 +2,14 @@ import { DateTime } from 'luxon'
 import { withAuthFinder } from '@adonisjs/auth'
 import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
-import { column} from '@adonisjs/lucid/orm'
+import { column, hasMany} from '@adonisjs/lucid/orm'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import MyModel from './model.js'
 import { profileValidator } from '#validators/user'
+import Todo from './todo.js'
+import type { HasMany } from '@adonisjs/lucid/types/relations'
+import Note from './note.js'
+import Category from './category.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['username', 'email'],
@@ -56,7 +60,16 @@ export default class User extends compose(MyModel, AuthFinder) {
   declare updatedAt: DateTime | null
 
   //---------------------------------Relationships---------------------------------------------//
+  @hasMany(()=> Todo)
+  declare todos: HasMany<typeof Todo>
+  
+  @hasMany(()=> Note)
+  declare notes: HasMany<typeof Note>
 
+  @hasMany(()=> Category)
+  declare categories: HasMany<typeof Category> 
+   
+  // functions .................................
   static accessTokens = DbAccessTokensProvider.forModel(User)
 
   //---------------------------------Hooks---------------------------------------------//

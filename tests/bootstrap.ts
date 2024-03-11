@@ -31,7 +31,7 @@ export const plugins: Config['plugins'] = [assert(), apiClient(
 export const runnerHooks: Required<Pick<Config, 'setup' | 'teardown'>> = {
   setup: [
     () => testUtils.db().migrate(),
-    () => testUtils.db().truncate()
+    // () => testUtils.db().truncate()
   ],
   teardown: [],
 }

@@ -15,21 +15,21 @@ export default class TodoPolicy extends BasePolicy {
    * Only the post creator can edit the post
    */
   edit(user: User, todo: Todo): AuthorizerResponse {
-    return user.id === todo.user_id
+    return user.id === todo.userId
   }
 
   /**
    * Only the todo creator can delete the todo
    */
   delete(user: User, todo: Todo): AuthorizerResponse {
-    return user.id === todo.user_id
+    return user.id === todo.userId
   }
 
   /**
    * Only the todo creator can see the todo
    */
   show(user: User, todo: Todo): AuthorizerResponse {
-    return user.id === todo.user_id
+    return user.id === todo.userId
   }
 
 }

@@ -8,7 +8,7 @@ let name = vine.string().use(
 export const storeValidator = vine.compile(
     vine.object({
         name,
-        type: vine.enum(['note', 'todo']),
+        type: vine.enum(['note', 'todo']).optional(),
     })
 )
 

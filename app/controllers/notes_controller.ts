@@ -2,12 +2,13 @@ import Note from "#models/note";
 import { HttpContext } from "@adonisjs/core/http";
 import CrudsController from "./cruds_controller.js";
 import { favoriteValidator } from "#validators/note";
+import NotePolicy from "#policies/note_policy";
 
 export default class NotesController extends CrudsController {
     constructor() {
         super();
         this.model = Note;
-        this.policy = "NotePolicy"
+        this.policy = NotePolicy
     }
 
     async markAsFavorite({request, params}: HttpContext){

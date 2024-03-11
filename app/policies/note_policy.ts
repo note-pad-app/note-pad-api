@@ -15,21 +15,21 @@ export default class NotePolicy extends BasePolicy {
    * Only the post creator can edit the post
    */
   edit(user: User, note: Note): AuthorizerResponse {
-    return user.id === note.user_id
+    return user.id === note.userId
   }
 
   /**
    * Only the note creator can delete the note
    */
   delete(user: User, note: Note): AuthorizerResponse {
-    return user.id === note.user_id
+    return user.id === note.userId
   }
 
   /**
    * Only the note creator can see the note
    */
   show(user: User, note: Note): AuthorizerResponse {
-    return user.id === note.user_id
+    return user.id === note.userId
   }
 
 }

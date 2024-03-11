@@ -1,15 +1,18 @@
 import { DateTime } from 'luxon'
-import { column } from '@adonisjs/lucid/orm'
+import { afterSave, belongsTo, column } from '@adonisjs/lucid/orm'
 import MyModel from './model.js'
 import { storeValidator, updateValidator } from '#validators/todo';
+import User from './user.js';
+import type { BelongsTo } from '@adonisjs/lucid/types/relations';
+import Category from './category.js';
 
 export default class Todo extends MyModel {
 
-  static get sroteValidator(){
+  static get storeValidator() {
     return storeValidator;
   }
 
-  static get updateValidator(){
+  static get updateValidator() {
     return updateValidator;
   }
 
@@ -17,13 +20,16 @@ export default class Todo extends MyModel {
   declare id: number
 
   @column()
-  declare user_id: number
+  declare userId: number
 
   @column()
-  declare category_id: number
+  declare categoryId: number
 
   @column()
   declare todo: string
+
+  @column()
+  declare remarks: string
 
   @column.dateTime()
   declare completed_at: DateTime
@@ -51,5 +57,25 @@ export default class Todo extends MyModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  // relationships
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
+
+  @belongsTo(() => Category)
+  declare category: BelongsTo<typeof Category>
+
+  // hooks
+
+  @afterSave()
+  static async afterUpdate(todo: Todo) {
+    console.log('outside')
+    if (todo.is_completed) {
+      console.log('inside')
+      todo.completed_at = DateTime.now();
+      await todo.save()
+    }
+  }
 
 }

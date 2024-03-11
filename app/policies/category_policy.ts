@@ -15,20 +15,20 @@ export default class CategoryPolicy extends BasePolicy {
    * Only the post creator can edit the post
    */
   edit(user: User, category: Category): AuthorizerResponse {
-    return user.id === category.user_id
+    return user.id === category.userId
   }
 
   /**
    * Only the category creator can delete the category
    */
   delete(user: User, category: Category): AuthorizerResponse {
-    return user.id === category.user_id
+    return user.id === category.userId
   }
 
   /**
    * Only the category creator can see the category
    */
   show(user: User, category: Category): AuthorizerResponse {
-    return user.id === category.user_id
+    return user.id === category.userId
   }
 }

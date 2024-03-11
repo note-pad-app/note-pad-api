@@ -20,7 +20,7 @@ export default class CrudsController {
     if (await bouncer.with(this.policy).denies('show', data)) {
       return response.forbidden('Cannot see this data')
     }
-
+    
     return response.status(200).json(data);
   }
 
