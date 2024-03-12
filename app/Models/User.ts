@@ -36,13 +36,10 @@ export default class User extends compose(MyModel, AuthFinder) {
   declare lastname: string
 
   @column()
-  declare country: string
-
-  @column()
-  declare job: string
-
-  @column()
   declare username: string
+
+  @column()
+  declare photo: string
 
   @column()
   declare email: string

@@ -11,12 +11,13 @@ export default class TodosController extends CrudsController {
         this.policy = TodoPolicy
     }
 
-    async markAsCompleted({ request, params }: HttpContext) {
-        let { is_completed } = await request.validateUsing(completedValidator)
+    async markAsCompleted({ request, params, response}: HttpContext) {
+        let { is_complete } = await request.validateUsing(completedValidator)
         let todo = await Todo.findOrFail(params.id)
-        todo.is_completed = is_completed;
+        todo.is_completed = is_complete;
         await todo.save()
 
-        return "updated"
+        return response.status(204).send("updated")
+        
     }
 }

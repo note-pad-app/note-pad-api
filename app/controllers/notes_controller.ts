@@ -11,12 +11,12 @@ export default class NotesController extends CrudsController {
         this.policy = NotePolicy
     }
 
-    async markAsFavorite({request, params}: HttpContext){
+    async markAsFavorite({request, params, response}: HttpContext){
         let { favorite } = await request.validateUsing(favoriteValidator)
         let note = await Note.findOrFail(params.id)
         note.is_favorite = favorite;
         await note.save()
 
-        return "updated"
+        return response.status(204).send("updated")
     }
 }

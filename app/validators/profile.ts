@@ -6,7 +6,7 @@ export const profileValidator = vine.compile(
         username: vine.string().use(
             uniqueRule({ table: 'users', column: 'username' })
         ).optional(),
-        email: vine.string().use(
+        email: vine.string().email().use(
             uniqueRule({ table: 'email', column: 'email' })
         ).optional(),
         firstname: vine.string().optional(),

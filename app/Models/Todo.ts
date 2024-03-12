@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { afterSave, belongsTo, column } from '@adonisjs/lucid/orm'
+import { afterUpdate, belongsTo, column } from '@adonisjs/lucid/orm'
 import MyModel from './model.js'
 import { storeValidator, updateValidator } from '#validators/todo';
 import User from './user.js';
@@ -32,7 +32,7 @@ export default class Todo extends MyModel {
   declare remarks: string
 
   @column.dateTime()
-  declare completed_at: DateTime
+  declare completed_at: DateTime | null
 
   @column({
     consume: (v) => Boolean(v),
@@ -43,12 +43,12 @@ export default class Todo extends MyModel {
   declare reminder: DateTime
 
   @column({
-    consume: (v) => Boolean(v),
+    consume: (v) => Boolean(v) as boolean,
   })
   declare is_completed: boolean
 
   @column({
-    consume: (v) => Boolean(v),
+    consume: (v) => Boolean(v) as boolean,
   })
   declare is_deleted: boolean
 
@@ -67,15 +67,18 @@ export default class Todo extends MyModel {
   declare category: BelongsTo<typeof Category>
 
   // hooks
-
-  @afterSave()
+  @afterUpdate()
   static async afterUpdate(todo: Todo) {
-    console.log('outside')
-    if (todo.is_completed) {
-      console.log('inside')
-      todo.completed_at = DateTime.now();
-      await todo.save()
+    if (todo.$dirty.is_completed) {
+      console.log('dirty')
+      if (todo.is_completed) {
+        console.log('date')
+        todo.completed_at = DateTime.now();
+        await todo.save()
+      } else {
+        console.log('set null')
+        todo.completed_at = null;
+      }
     }
   }
-
 }

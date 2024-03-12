@@ -1,11 +1,11 @@
 import vine from '@vinejs/vine'
 
 let schema = {
-    category_id: vine.number().optional(),
+    categoryId: vine.number().optional(),
     todo: vine.string(),
     remarks: vine.string().optional(),
     is_important: vine.boolean().optional(),
-    reminder: vine.date().optional()
+    reminder: vine.string().optional()
 }
 
 export const storeValidator = vine.compile(
@@ -18,6 +18,6 @@ export const updateValidator = vine.compile(
 
 export const completedValidator = vine.compile(
     vine.object({
-        is_completed: vine.boolean()
+        is_complete: vine.boolean()
     })
 )
