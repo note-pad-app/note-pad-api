@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { afterUpdate, belongsTo, column } from '@adonisjs/lucid/orm'
+import { afterUpdate, belongsTo, column} from '@adonisjs/lucid/orm'
 import MyModel from './model.js'
 import { storeValidator, updateValidator } from '#validators/todo';
 import User from './user.js';
@@ -69,16 +69,14 @@ export default class Todo extends MyModel {
   // hooks
   @afterUpdate()
   static async afterUpdate(todo: Todo) {
-    if (todo.$dirty.is_completed) {
-      console.log('dirty')
-      if (todo.is_completed) {
-        console.log('date')
-        todo.completed_at = DateTime.now();
-        await todo.save()
-      } else {
-        console.log('set null')
-        todo.completed_at = null;
-      }
+    let query = Todo.query()
+      .where('id', todo.id)
+
+    if (todo.is_completed) {
+      await query
+        .update({ completed_at: DateTime.now().toString() })
+    } else {
+      await query.update({ completed_at: null })
     }
   }
 }
