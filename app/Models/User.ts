@@ -5,7 +5,7 @@ import { compose } from '@adonisjs/core/helpers'
 import { column, hasMany} from '@adonisjs/lucid/orm'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import MyModel from './model.js'
-import { profileValidator } from '#validators/user'
+import { profileValidator } from '#validators/profile'
 import Todo from './todo.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Note from './note.js'
@@ -30,10 +30,7 @@ export default class User extends compose(MyModel, AuthFinder) {
   declare id: number
 
   @column()
-  declare firstname: string
-
-  @column()
-  declare lastname: string
+  declare fullname: string
 
   @column()
   declare username: string

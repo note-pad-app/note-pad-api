@@ -15,8 +15,7 @@ test.group("profile show", (group) => {
 
         response.assertBodyContains({
             id: user.id,
-            firstname: user.firstname,
-            lastname: user.lastname,
+            fullname: user.fullname,
             username: user.username,
             email: user.email,        
             createdAt: Date,

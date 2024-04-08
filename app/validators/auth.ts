@@ -12,8 +12,7 @@ export const LoginValidator = vine.compile(
 
 export const UserValidator = vine.compile(
   vine.object({
-    firstname: vine.string().trim(),
-    lastname: vine.string().trim(),
+    fullname: vine.string().trim(),
     username: vine.string().trim().use(
       uniqueRule({ table: 'users', column: 'username' })
     ),

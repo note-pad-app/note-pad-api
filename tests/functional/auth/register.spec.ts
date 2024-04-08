@@ -7,8 +7,7 @@ test.group('Users registration', (group) => {
   test('register successfully', async ({ client }) => {
     const response = await client.post('api/auth/register')
       .json({
-        firstname: "edriss",
-        lastname: "aria",
+        fullname: "edriss aria",
         username: "aria",
         email: "email@gmail.com",
         password: "xxx",
@@ -32,14 +31,9 @@ test("empty body", async ({ client }) => {
     {
       errors: [
         {
-          message: 'The firstname field must be defined',
+          message: 'The fullname field must be defined',
           rule: 'required',
-          field: 'firstname'
-        },
-        {
-          message: 'The lastname field must be defined',
-          rule: 'required',
-          field: 'lastname'
+          field: 'fullname'
         },
         {
           message: 'The username field must be defined',
@@ -71,8 +65,7 @@ test("invalid fields", async ({ client }) => {
   const response = await client
     .post(`api/auth/register`)
     .json({
-      firstname: 2323,
-      lastname: false,
+      fullname: 2323,
       email: 2323,
       username: false,
       password: 3234234,
@@ -83,14 +76,9 @@ test("invalid fields", async ({ client }) => {
     {
       errors: [
         {
-          message: 'The firstname field must be a string',
+          message: 'The fullname field must be a string',
           rule: 'string',
-          field: 'firstname'
-        },
-        {
-          message: 'The lastname field must be a string',
-          rule: 'string',
-          field: 'lastname'
+          field: 'fullname'
         },
         {
           message: 'The username field must be a string',
@@ -122,8 +110,7 @@ test("confirm password", async ({ client }) => {
   const response = await client
     .post(`api/auth/register`)
     .json({
-      firstname: "edriss",
-      lastname: "aria",
+      fullname: "edriss",
       email: "adis@gmail.com",
       username: "adis",
       password: "sss",
@@ -149,8 +136,7 @@ test("invalid email format", async ({ client }) => {
   const response = await client
     .post(`api/auth/register`)
     .json({
-      firstname: "edriss",
-      lastname: "aria",
+      fullname: "edriss",
       email: "adis@gmail",
       username: "adis",
       password: "sss",

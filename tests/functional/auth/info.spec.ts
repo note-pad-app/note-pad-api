@@ -15,8 +15,7 @@ test.group("user auth info", (group) => {
         response.assertBodyContains({
             user: {
               id: Number,
-              firstname: String,
-              lastname: String,
+              fullname: String,
               job: String ?? null,
               country: String ?? null,
               username: String,
