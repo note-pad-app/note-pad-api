@@ -24,4 +24,6 @@ export default class ProfilesController extends CrudsController {
 
         return avatar.filePath;
     }
+
+    
 }

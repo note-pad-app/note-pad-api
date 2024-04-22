@@ -9,6 +9,7 @@ test.group("category store", (group) => {
         let user = await UserFactory.create()
         let data = {
             name: 'work',
+            type: 'todo'
         }
 
         const response = await client
@@ -26,7 +27,7 @@ test.group("category store", (group) => {
         })
     });
 
-    test("category storing with no name", async ({ client }) => {
+    test("category storing with no body", async ({ client }) => {
         let user = await UserFactory.create()
 
         const response = await client
@@ -36,9 +37,14 @@ test.group("category store", (group) => {
         response.assertBodyContains({
             errors: [
                 {
-                    message: 'The name field must be defined', 
+                    message: 'The name field must be defined',
                     rule: 'required',
                     field: 'name'
+                },
+                {
+                    message: 'The type field must be defined',
+                    rule: 'required',
+                    field: 'type'
                 }
             ]
         })
@@ -47,20 +53,31 @@ test.group("category store", (group) => {
 
     });
 
-    test("category storing with invalid name", async ({ client }) => {
+    test("category storing with invalid name and type", async ({ client }) => {
         let user = await UserFactory.create()
 
         const response = await client
             .post(`api/categories`)
-            .json({name: false})
+            .json({ name: false, type: 'post' })
             .loginAs(user)
 
         response.assertBodyContains({
             errors: [
                 {
-                    message: 'The name field must be a string', 
+                    message: 'The name field must be a string',
                     rule: 'string',
                     field: 'name'
+                },
+                {
+                    message: 'The selected type is invalid',
+                    rule: 'enum',
+                    field: 'type',
+                    meta: {
+                        "choices": [
+                            "note",
+                            "todo",
+                        ],
+                    },
                 }
             ]
         })
@@ -69,5 +86,5 @@ test.group("category store", (group) => {
 
     });
 
-    
+
 });

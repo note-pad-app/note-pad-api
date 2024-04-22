@@ -58,7 +58,7 @@ export default class AuthController {
           .to(user.email)
           .from(env.get('SMTP_USERNAME'))
           .subject('Password Reset')
-          .html(`<div style="text-align: center"><h2>Password Reset</h2><p>Click the link below to reset your password:</p><a href="http://localhost:3333?user_id=${user.id}&token=${token.hash}" style="margin-top: 1rem;background: blue; padding: 10px; border-radius: 2px; color: white">Reset Password</a></div>`)
+          .html(`<div style="text-align: center"><h2>Password Reset</h2><p>Click the link below to reset your password:</p><a href="http://localhost:5173/reset-password?user_id=${user.id}&token=${token.hash}" style="margin-top: 1rem;background: blue; padding: 10px; border-radius: 2px; color: white">Reset Password</a></div>`)
       })
     }
 
