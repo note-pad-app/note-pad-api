@@ -34,15 +34,14 @@ async function unique(
             .whereNot('id', field.data.params.id)
     }
 
+    query.select('*')
+        .where(options.column, value)
+
     if (options.table === 'categories') {
         query
-            .select(options.column, 'type')
             .where(options.column, value)
-            .andWhere('type', field.data.type) 
-    } else {
-        query
-            .select(options.column)
-            .where(options.column, value)
+            .andWhere('type', field.data.type)
+            .andWhere('userId', field.data.userId)
     }
 
     const row = await query.first()
