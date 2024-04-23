@@ -29,15 +29,23 @@ async function unique(
 
     let query = db.from(options.table)
 
-    if(field.data.params.id){
+    if (field.data.params.id) {
         query = query
-        .whereNot('id', field.data.params.id)
+            .whereNot('id', field.data.params.id)
     }
 
-    const row = await query   
-        .select(options.column)
-        .where(options.column, value)
-        .first()
+    if (options.table === 'categories') {
+        query
+            .select(options.column, 'type')
+            .where(options.column, value)
+            .andWhere('type', field.data.type) 
+    } else {
+        query
+            .select(options.column)
+            .where(options.column, value)
+    }
+
+    const row = await query.first()
 
     if (row) {
         field.report(
