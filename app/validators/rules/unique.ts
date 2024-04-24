@@ -16,7 +16,7 @@ type Options = {
 async function unique(
     value: unknown,
     options: Options,
-    field: FieldContext
+    field: FieldContext,
 ) {
     /**
      * We do not want to deal with non-string
@@ -41,7 +41,7 @@ async function unique(
         query
             .where(options.column, value)
             .andWhere('type', field.data.type)
-            .andWhere('userId', field.data.userId)
+            .andWhere('user_id', field.data.user_id)
     }
 
     const row = await query.first()
