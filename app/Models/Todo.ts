@@ -7,7 +7,10 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations';
 import Category from './category.js';
 
 export default class Todo extends MyModel {
-
+  static get preloads() {
+    return ["category"];
+  }
+  
   static get storeValidator() {
     return storeValidator;
   }
@@ -31,7 +34,7 @@ export default class Todo extends MyModel {
   @column()
   declare remarks: string
 
-  @column.dateTime()
+  @column.dateTime({consume: (v)=> DateTime.fromJSDate(v).toFormat('yyyy-MM-dd HH:mm:ss')})
   declare completed_at: DateTime | null
 
   @column({
@@ -39,8 +42,8 @@ export default class Todo extends MyModel {
   })
   declare is_important: boolean
 
-  @column.dateTime()
-  declare reminder: DateTime
+  @column.dateTime({consume: (v)=> DateTime.fromJSDate(v).toFormat('yyyy-MM-dd HH:mm:ss')})
+  declare reminder: DateTime | null
 
   @column({
     consume: (v) => Boolean(v) as boolean,

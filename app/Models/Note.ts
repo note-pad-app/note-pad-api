@@ -7,7 +7,10 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations';
 import Category from './category.js';
 
 export default class Note extends MyModel {
-
+  static get preloads() {
+    return ["category"];
+  }
+  
   static get storeValidator() {
     return storeValidator;
   }
@@ -38,7 +41,7 @@ export default class Note extends MyModel {
   })
   declare is_deleted: number
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, consume: (v)=> DateTime.fromJSDate(v).toFormat('yyyy-MM-dd HH:mm:ss')})
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
