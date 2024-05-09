@@ -10,7 +10,6 @@ import {
   LoginValidator,
   UserValidator
 } from "#validators/auth";
-import hash from '@adonisjs/core/services/hash'
 
 export default class AuthController {
 
@@ -45,9 +44,9 @@ export default class AuthController {
   }
 
   async forgotPassword({ request }: HttpContext) {
-    let {uids} = await request.validateUsing(ForgotPasswordValidator)
+    let { uids } = await request.validateUsing(ForgotPasswordValidator)
 
-    let user = await User.query().where({username: uids}).orWhere({email: uids}).first()
+    let user = await User.query().where({ username: uids }).orWhere({ email: uids }).first()
 
     if (user) {
       // Generate a unique token for password reset
@@ -63,16 +62,16 @@ export default class AuthController {
     }
 
     return 'An email with password reset instructions has been sent.'
-      
+
   }
 
   async resetPassword({ request }: HttpContext) {
-    let {user_id, password} = await request.validateUsing(ResetPasswordValidator)
-    
+    let { user_id, password } = await request.validateUsing(ResetPasswordValidator)
+
     let user = await User.findOrFail(user_id);
     user.password = password;
     await user.save();
-    
+
     return "password changed!";
   }
 
@@ -90,19 +89,13 @@ export default class AuthController {
   }
 
   async changePassword({ auth, request, response }: HttpContext) {
-    const { old_password, new_password } = await request.validateUsing(PasswordChangeValidator);
-
+    const { password } = await request.validateUsing(PasswordChangeValidator);
     const user = await User.findOrFail(auth.user?.id);
+    user.merge({ password: password });
+    await user.save();
 
-    if (await hash.verify(user.password, old_password)) {
-      user.merge({ password: new_password });
-      await user.save();
-
-      response
-        .status(200)
-        .json({ message: "password is updated successfully" });
-    } else {
-      response.status(403).json({ message: "incorrect password" });
-    }
+    response
+      .status(200)
+      .json({ message: "password is updated successfully" });
   }
 }

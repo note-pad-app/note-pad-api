@@ -26,15 +26,8 @@ export const UserValidator = vine.compile(
 
 export const PasswordChangeValidator  = vine.compile(
   vine.object({
-    old_password: vine.string(),
-    new_password: vine.string(),
+    password: vine.string(),
   })    
-)
-
-export const PasswordConfirmationValidator = vine.compile (
-  vine.object({
-    password: vine.string().confirmed({confirmationField: 'password'}),
-  })
 )
 
 export const ForgotPasswordValidator = vine.compile (
