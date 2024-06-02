@@ -2,11 +2,12 @@ import User from '#models/user'
 import CrudsController from './cruds_controller.js'
 import ProfilePolicy from '#policies/profile_policy'
 import { HttpContext } from '@adonisjs/core/http';
-import { uploadAvatarValidator } from '#validators/profile';
+import { profileValidator, uploadAvatarValidator } from '#validators/profile';
 import { cuid } from '@adonisjs/core/helpers'
 import app from '@adonisjs/core/services/app'
 import Note from '#models/note';
 import Todo from '#models/todo';
+import env from '#start/env';
 
 export default class ProfilesController extends CrudsController {
     constructor() {
@@ -20,11 +21,22 @@ export default class ProfilesController extends CrudsController {
             uploadAvatarValidator
         )
 
-        await avatar.move(app.makePath('uploads'), {
+        await avatar.move(app.makePath('public/uploads'), {
             name: `${cuid()}.${avatar.extname}`
         })
 
-        return avatar.filePath;
+        return {
+            file_path: `${env.get("HOST")}:${env.get('PORT')}/uploads/${avatar.fileName}`
+        }
+    }
+    
+    public async edit({auth, request}: HttpContext){
+        const payload = await request.validateUsing(profileValidator)
+        const profile = await User.findOrFail(auth.user!.id)
+        profile.merge(payload)
+        await profile.save()
+        
+        return profile;
     }
 
     public async getTotalData({auth}: HttpContext){
@@ -35,6 +47,4 @@ export default class ProfilesController extends CrudsController {
 
         return {total_notes, total_todos}
     } 
-
-    
 }

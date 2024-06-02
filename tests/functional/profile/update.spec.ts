@@ -1,32 +1,32 @@
 import { test } from "@japa/runner";
 import { UserFactory } from "#database/factories/user_factory";
 import testUtils from "@adonisjs/core/services/test_utils";
-import User from "#models/user";
 
 test.group("user update", (group) => {
   group.each.setup(() => testUtils.db().withGlobalTransaction());
 
-  test("user updating without any error", async ({ client, assert }) => {
+  test("user updating without any error", async ({ client }) => {
     let user = await UserFactory.create()
 
     let data = {
       username: 'sis',
       fullname: 'ssss',
-      photo: "/sljdlkdlkdjlkjd.com"
+      avatar_path: "/sljdlkdlkdjlkjd.com"
     }
 
     const response = await client
-      .put(`api/profile/${user.id}`)
+      .put(`api/profile/update`)
       .json(data)
       .loginAs(user)
 
-    let result = await User.findOrFail(user.id)
+    response.assertBodyContains({
+      id: Number,
+      fullname: data.fullname,
+      avatarPath: data.avatar_path,
+      username: data.username,
+    })
 
-    assert.equal(result.username, data.username)
-    assert.equal(result.fullname, data.fullname)
-    assert.equal(result.photo, data.photo)
-
-    response.assertStatus(204)
+    response.assertStatus(200)
 
   });
 
@@ -34,11 +34,11 @@ test.group("user update", (group) => {
     let user = await UserFactory.create()
 
     const response = await client
-      .put(`api/profile/${user.id}`)
+      .put(`api/profile/update`)
       .json({
         fullname: false,
         username: false,
-        photo: 4343
+        avatar_path: 4343
       })
       .loginAs(user)
 
@@ -50,9 +50,9 @@ test.group("user update", (group) => {
           field: 'fullname'
         },
         {
-          message: 'The photo field must be a string',
+          message: 'The avatar_path field must be a string',
           rule: 'string',
-          field: 'photo'
+          field: 'avatar_path'
         },
         {
           message: 'The username field must be a string',

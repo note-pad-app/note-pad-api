@@ -36,7 +36,7 @@ export default class User extends compose(MyModel, AuthFinder) {
   declare username: string
 
   @column()
-  declare photo: string
+  declare avatarPath: string
 
   @column()
   declare email: string
@@ -44,7 +44,7 @@ export default class User extends compose(MyModel, AuthFinder) {
   @column({ serializeAs: null })
   declare password: string
 
-  @column()
+  @column({serializeAs: null})
   declare rememberMeToken: string | null
 
   @column.dateTime({ autoCreate: true })

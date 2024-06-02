@@ -4,7 +4,7 @@ import { uniqueRule } from './rules/unique.js'
 export const profileValidator = vine.compile(
   vine.object({
       fullname: vine.string().optional(),
-      photo: vine.string().trim().optional(),
+      avatar_path: vine.string().trim().optional(),
       username: vine.string().trim().use(
           uniqueRule({ table: 'users', column: 'username' })
       ).optional(),
