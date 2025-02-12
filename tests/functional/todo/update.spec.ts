@@ -3,7 +3,6 @@ import { UserFactory } from "#database/factories/user_factory";
 import testUtils from "@adonisjs/core/services/test_utils";
 import { CategoryFactory } from "#database/factories/category_factory";
 import { TodoFactory } from "#database/factories/todo_factory";
-import Todo from "#models/todo";
 
 test.group("todo update", (group) => {
     group.each.setup(() => testUtils.db().withGlobalTransaction());
@@ -26,15 +25,17 @@ test.group("todo update", (group) => {
             .json(data)
             .loginAs(user)
 
-        let result = await Todo.findOrFail(todo.id)
-        
-        assert.equal(result.todo, data.todo)
-        assert.equal(result.categoryId, data.categoryId)
-        assert.equal(result.is_important, data.is_important)
-        assert.equal(result.reminder.toString(), data.reminder)
-        assert.equal(result.remarks, data.remarks)
+        response.assertBodyContains({
+            id: todo.id,
+            userId: user.id,
+            categoryId: data.categoryId,
+            todo: data.todo,
+            isImportant: data.is_important,
+            reminder: data.reminder,
+            remarks: data.remarks,            
+          })
 
-        response.assertStatus(204)
+        response.assertStatus(200)
 
     });
 

@@ -17,7 +17,7 @@ test.group("total notes and todos", (group) => {
         .create()
         
         const response = await client
-            .get(`api/profile-get-total`)
+            .get(`api/profile/data/get-total`)
             .loginAs(user)
 
         response.assertBodyContains({ total_notes: 3, total_todos: 3 })

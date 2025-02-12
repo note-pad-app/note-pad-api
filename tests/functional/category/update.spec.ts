@@ -2,17 +2,18 @@ import { test } from "@japa/runner";
 import { UserFactory } from "#database/factories/user_factory";
 import testUtils from "@adonisjs/core/services/test_utils";
 import { CategoryFactory } from "#database/factories/category_factory";
-import Category from "#models/category";
 
 test.group("category update", (group) => {
     group.each.setup(() => testUtils.db().withGlobalTransaction());
 
     test("category updating without any error", async ({ client, assert }) => {
         let user = await UserFactory.create()
-        let cat = await CategoryFactory.merge({userId: user.id}).create()
+        let cat = await CategoryFactory.merge({ userId: user.id }).create()
 
         let data = {
-            name: 'work',
+            name: "work",
+            type: "todo",
+            user_id: user.id
         }
 
         const response = await client
@@ -20,28 +21,28 @@ test.group("category update", (group) => {
             .json(data)
             .loginAs(user)
 
-        let result = await Category.findOrFail(cat.id)
+        response.assertBodyContains({
+            name: data.name
+        })
 
-        assert.equal(result.name, data.name)
-
-        response.assertStatus(204)
+        response.assertStatus(200)
 
     });
 
     test("category storing with invalid name", async ({ client }) => {
         let user = await UserFactory.create()
 
-        let cat = await CategoryFactory.merge({userId: user.id}).create()
+        let cat = await CategoryFactory.merge({ userId: user.id }).create()
 
         const response = await client
             .put(`api/categories/${cat.id}`)
-            .json({name: false})
+            .json({ name: false })
             .loginAs(user)
 
         response.assertBodyContains({
             errors: [
                 {
-                    message: 'The name field must be a string', 
+                    message: 'The name field must be a string',
                     rule: 'string',
                     field: 'name'
                 }
@@ -50,5 +51,5 @@ test.group("category update", (group) => {
 
     });
 
-    
+
 });

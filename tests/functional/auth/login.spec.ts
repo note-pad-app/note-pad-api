@@ -84,8 +84,6 @@ test.group('Users login', (group) => {
 
     test("invalid password and (username or email)", async ({ client }) => {
 
-        let user = await UserFactory.create()
-
         const response = await client
             .post(`api/auth/login`)
             .json({

@@ -15,10 +15,10 @@ test.group("user update", (group) => {
     }
 
     const response = await client
-      .put(`api/profile/update`)
+      .put(`api/profile/${user.id}`)
       .json(data)
       .loginAs(user)
-
+      
     response.assertBodyContains({
       id: Number,
       fullname: data.fullname,
@@ -34,7 +34,7 @@ test.group("user update", (group) => {
     let user = await UserFactory.create()
 
     const response = await client
-      .put(`api/profile/update`)
+      .put(`api/profile/${user.id}`)
       .json({
         fullname: false,
         username: false,

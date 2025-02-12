@@ -45,7 +45,7 @@ export default class CrudsController {
 
     await data.save();
 
-    return response.status(204).json(data);
+    return response.status(200).json(data);
   }
 
   //delete single data

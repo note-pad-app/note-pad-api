@@ -41,9 +41,9 @@ async function unique(
         query
             .where(options.column, value)
             .andWhere('type', field.data.type)
-            // .andWhere('user_id', field.data.user_id)
+            .andWhere('user_id', field.data.user_id)
     }
-
+    
     const row = await query.first()
 
     if (row) {

@@ -25,7 +25,12 @@ export default class AuthController {
       }
     )
 
-    return token;
+    const tokenResponse = {
+      ...token.toJSON(),
+      userId: user.id,
+    };
+  
+    return tokenResponse;
 
   }
 
@@ -40,7 +45,12 @@ export default class AuthController {
       }
     )
 
-    return token
+    const tokenResponse = {
+      ...token.toJSON(),
+      userId: newuser.id,
+    };
+  
+    return tokenResponse;
   }
 
   async forgotPassword({ request }: HttpContext) {

@@ -81,22 +81,7 @@ export default class MyModel extends BaseModel {
 
             if (opt === "like" && !value.includes(",")) value = `%${value}%`;
 
-            if (property.includes(".")) {
-                const [a, b]: any = property.split(".");
-
-                query = query.whereHas(a, (builder) => {
-                    if (value.includes(",")) {
-                        if (opt === "between") {
-                            const [start, end] = value.split(",");
-                            builder.whereBetween(b, [start, end]);
-                        } else {
-                            builder.whereIn(b, value.split(","));
-                        }
-                    } else {
-                        builder.where(b, opt || "=", value);
-                    }
-                });
-            } else {
+        
                 if (value.includes(",")) {
                     if (opt === "between") {
                         const [start, end] = value.split(",");
@@ -107,7 +92,7 @@ export default class MyModel extends BaseModel {
                 } else {
                     query = query.where(property, opt || "=", value);
                 }
-            }
+            
         }
 
         return query;

@@ -24,7 +24,7 @@ test.group("Note update", (group) => {
 
         assert.equal(result.note, data.note)
 
-        response.assertStatus(204)
+        response.assertStatus(200)
 
     });
 

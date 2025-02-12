@@ -2,7 +2,7 @@ import User from '#models/user'
 import CrudsController from './cruds_controller.js'
 import ProfilePolicy from '#policies/profile_policy'
 import { HttpContext } from '@adonisjs/core/http';
-import { profileValidator, uploadAvatarValidator } from '#validators/profile';
+import { uploadAvatarValidator } from '#validators/profile';
 import { cuid } from '@adonisjs/core/helpers'
 import app from '@adonisjs/core/services/app'
 import Note from '#models/note';
@@ -29,19 +29,16 @@ export default class ProfilesController extends CrudsController {
             file_path: `${env.get("HOST")}:${env.get('PORT')}/uploads/${avatar.fileName}`
         }
     }
-    
-    public async edit({auth, request}: HttpContext){
-        const payload = await request.validateUsing(profileValidator)
-        const profile = await User.findOrFail(auth.user!.id)
-        profile.merge(payload)
-        await profile.save()
-        
-        return profile;
-    }
 
     public async getTotalData({auth}: HttpContext){
-        const notes = await Note.query().where({userId: auth.user!.id}).count('* as note')
-        const todos = await Todo.query().where({userId: auth.user!.id}).count('* as todo')
+        const notes = await Note.query()
+        .where({is_deleted: false})
+        .where({userId: auth.user!.id})
+        .count('* as note')
+        const todos = await Todo.query()
+        .where({is_deleted: false})
+        .where({userId: auth.user!.id})
+        .count('* as todo')
         let total_notes = notes[0].note
         let total_todos = todos[0].todo
 
