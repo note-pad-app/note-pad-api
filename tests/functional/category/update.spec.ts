@@ -6,7 +6,7 @@ import { CategoryFactory } from "#database/factories/category_factory";
 test.group("category update", (group) => {
     group.each.setup(() => testUtils.db().withGlobalTransaction());
 
-    test("category updating without any error", async ({ client, assert }) => {
+    test("category updating without any error", async ({ client }) => {
         let user = await UserFactory.create()
         let cat = await CategoryFactory.merge({ userId: user.id }).create()
 

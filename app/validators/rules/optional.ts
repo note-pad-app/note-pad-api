@@ -4,16 +4,16 @@ import { FieldContext } from '@vinejs/vine/types'
 /**
  * Options accepted by the unique rule
  */
-type Options = {
-    column: string
-}
+// type Options = {
+//     column: string
+// }
 
 /**
  * Implementation
  */
 async function optional(
     value: any,
-    options: Options,
+    // options: Options,
     field: FieldContext
 ) {
 

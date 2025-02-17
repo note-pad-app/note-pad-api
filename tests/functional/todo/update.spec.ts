@@ -7,7 +7,7 @@ import { TodoFactory } from "#database/factories/todo_factory";
 test.group("todo update", (group) => {
     group.each.setup(() => testUtils.db().withGlobalTransaction());
 
-    test("todo updating without any error", async ({ client, assert }) => {
+    test("todo updating without any error", async ({ client }) => {
         let user = await UserFactory.create()
         let cat = await CategoryFactory.create()
         let todo = await TodoFactory.merge({ userId: user.id }).with('category').create()
