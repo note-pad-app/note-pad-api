@@ -5,7 +5,7 @@ const dbConfig = defineConfig({
   connection: 'mysql', 
   connections: {
     mysql: {
-      client: 'mysql',
+      client: 'mysql2',
       connection: {
         host: env.get('DB_HOST'),
         port: env.get('DB_PORT'),
