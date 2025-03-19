@@ -59,7 +59,6 @@
     "@adonisjs/session": "^7.1.1",
     "@adonisjs/static": "^1.1.1",
     "@vinejs/vine": "^1.7.1",
-    "better-sqlite3": "^9.4.0",
     "luxon": "^3.5.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.13.0",
